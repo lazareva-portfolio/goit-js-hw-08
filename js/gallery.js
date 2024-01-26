@@ -92,34 +92,36 @@ const images = [
 
 
 generateGallery(images);
-
-const galleryItem = document.querySelector('.gallery-item');
 gallery.addEventListener('click', openItem);
 
 
 
-function openItem(event){
-event.preventDefault();
-if(event.target.nodeName === event.currentTarget.nodeName){
-    return
-};
- console.log('loh')  
- const clickedImageSrc = event.target.dataset.source;
- const instance = basicLightbox.create(`
-   <img src="${clickedImageSrc}" width="1112" height="640">
- `);
+function openItem(event) {
+  event.preventDefault();
 
- instance.show();
- window.addEventListener('keydown', closeItem);
- function closeItem(e) {
-    if(e.code === 'Escape'){
-        instance.close();
-        window.removeEventListener('keydown', closeItem);
-    }
+  const clickedImage = event.target.closest('.gallery-image');
+
+  if (!clickedImage) {
+      return;
+  }
+
+  const clickedImageSrc = clickedImage.dataset.source;
+  const instance = basicLightbox.create(
+      `<img src="${clickedImageSrc}" width="1112" height="640">`, {
+          onShow: (instance) => {
+          },
+          onClose: (instance) => {
+          }
+      }
+  );
+
+  instance.show();
+  window.addEventListener('keydown', closeItem);
+
+  function closeItem(e) {
+      if (e.code === 'Escape') {
+          instance.close();
+          window.removeEventListener('keydown', closeItem);
+      }
+  }
 }
-}
-
-
-
-
-
