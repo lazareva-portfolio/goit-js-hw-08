@@ -109,19 +109,21 @@ function openItem(event) {
   const instance = basicLightbox.create(
       `<img src="${clickedImageSrc}" width="1112" height="640">`, {
           onShow: (instance) => {
+            window.addEventListener('keydown', closeItem);
           },
           onClose: (instance) => {
+            window.removeEventListener('keydown', closeItem);
           }
       }
   );
 
   instance.show();
-  window.addEventListener('keydown', closeItem);
+
 
   function closeItem(e) {
       if (e.code === 'Escape') {
           instance.close();
-          window.removeEventListener('keydown', closeItem);
+
       }
   }
 }
